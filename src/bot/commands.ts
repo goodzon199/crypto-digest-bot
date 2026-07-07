@@ -61,12 +61,11 @@ export function setupBot(bot: Telegraf) {
     }
   });
 
-  bot.hears(/^(\d+\.?\d*)\s+(BTC|ETH|USDT|USDC|BNB|SOL|XRP|TON|TRX|MONAD|MON|DOGE|ADA|NOT|LINK|AVAX|PEPE|SHIB|DOT)\s+(to|TO|=>|=|→)\s+(USD|RUB|USDT|EUR|BTC|ETH)$/i, async (ctx) => {
+  bot.hears(/\b(\d+\.?\d*)\s+(btc|eth|usdt|usdc|bnb|sol|xrp|ton|trx|monad|mon|doge|ada|not|link|avax|pepe|shib|dot|matic|atom|near|apt|sui|fil)\s+(to|в|→)\s+(usd|rub|usdt|eur|btc|eth|usdc)\b/i, async (ctx) => {
     const text = ctx.message.text.trim();
     const result = await convertCrypto(text);
-    if (result) {
-      await ctx.reply(`💱 *${result}*`, { parse_mode: 'Markdown' });
-    }
+    if (result) await ctx.reply(`💱 *${result}*`, { parse_mode: 'Markdown' });
+    else await ctx.reply('😔 Не могу найти такую монету. Попробуйте BTC, ETH, USDT, BNB, TRX', { parse_mode: 'Markdown' });
   });
 
   bot.command('subscribe', async (ctx) => {
