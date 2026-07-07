@@ -58,7 +58,7 @@ const COINGECKO_IDS: Record<string, string> = {
   'DOT': 'polkadot', 'DOGE': 'dogecoin',
   'TON': 'the-open-network', 'NOT': 'notcoin',
   'TRX': 'tron', 'TRON': 'tron',
-  'MONAD': 'monad', 'MON': 'monad',
+  'MON': 'monad',
   'LINK': 'chainlink', 'AVAX': 'avalanche-2',
   'MATIC': 'matic-network', 'POL': 'polygon-ecosystem-token',
   'ATOM': 'cosmos', 'NEAR': 'near',

@@ -61,7 +61,7 @@ export function setupBot(bot: Telegraf) {
     }
   });
 
-  bot.hears(/\b(\d+\.?\d*)\s+(btc|eth|usdt|usdc|bnb|sol|xrp|ton|trx|monad|mon|doge|ada|not|link|avax|pepe|shib|dot|matic|atom|near|apt|sui|fil)\s+(to|в|→)\s+(usd|rub|usdt|eur|btc|eth|usdc)\b/i, async (ctx) => {
+  bot.hears(/\b(\d+\.?\d*)\s+(btc|eth|usdt|usdc|bnb|sol|xrp|ton|trx|mon|doge|ada|not|link|avax|pepe|shib|dot|matic|atom|near|apt|sui|fil)\s+(to|в|→)\s+(usd|rub|usdt|eur|btc|eth|usdc)\b/i, async (ctx) => {
     const text = ctx.message.text.trim();
     const result = await convertCrypto(text);
     if (result) await ctx.reply(`💱 *${result}*`, { parse_mode: 'Markdown' });
