@@ -25,8 +25,8 @@ export function formatDigest(prices: PriceData[], news: NewsItem[], summary: str
   }
 
   msg += '\n💎 *Зарабатывай с нами:*\n';
-  msg += '▫️ [Bybit — бонус до $30](https://partner.bybit.com/b/cryptosvodka)\n';
-  msg += '▫️ [Binance — скидка на комиссию](https://accounts.binance.com/register?ref=CRYPTOSVODKA)\n';
+  msg += '▫️ [Bybit — бонус до $30](https://www.bybit.com/invite?ref=66MRXR)\n';
+  msg += '▫️ [Gate — торговля с выгодой](https://www.gate.com/rewards_hub?ch=RewardsHub&ref=VFZFVV8K&ref_type=145)\n';
 
   return msg;
 }
