@@ -1,5 +1,5 @@
 import { Telegraf } from 'telegraf';
-import { getPrices, getFearGreed, FearGreed } from '../api/prices';
+import { getPrices, getFearGreed, convertCrypto, FearGreed } from '../api/prices';
 import { fetchNews } from '../api/news';
 import { summarizeNews } from '../api/summarize';
 import { formatDigest } from '../utils/formatters';
@@ -36,6 +36,27 @@ export function setupBot(bot: Telegraf) {
   bot.command('digest', async (ctx) => {
     await ctx.reply('🔍 Собираю данные...');
     await sendDigest(ctx.chat.id, bot);
+  });
+
+  bot.command('convert', async (ctx) => {
+    const args = ctx.message.text.slice(9).trim();
+    if (!args) {
+      await ctx.reply(
+        '💱 *Конвертер валют*\n\n'
+          + 'Примеры:\n'
+          + '`/convert 1 BTC to USD`\n'
+          + '`/convert 100 USDT to RUB`\n'
+          + '`/convert 0.5 ETH to USDT`',
+        { parse_mode: 'Markdown' },
+      );
+      return;
+    }
+    const result = await convertCrypto(args);
+    if (result) {
+      await ctx.reply(`💱 *${result}*`, { parse_mode: 'Markdown' });
+    } else {
+      await ctx.reply('❌ Не удалось конвертировать. Попробуйте: `/convert 1 BTC to USD`', { parse_mode: 'Markdown' });
+    }
   });
 
   bot.command('subscribe', async (ctx) => {

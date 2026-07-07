@@ -48,3 +48,54 @@ export async function getFearGreed(): Promise<FearGreed | null> {
     return null;
   } catch { return null; }
 }
+
+const COINGECKO_IDS: Record<string, string> = {
+  'BTC': 'bitcoin', 'BITCOIN': 'bitcoin',
+  'ETH': 'ethereum', 'ETHEREUM': 'ethereum',
+  'USDT': 'tether', 'USDC': 'usd-coin',
+  'BNB': 'binancecoin', 'SOL': 'solana',
+  'XRP': 'ripple', 'ADA': 'cardano',
+  'DOT': 'polkadot', 'DOGE': 'dogecoin',
+  'TON': 'the-open-network', 'NOT': 'notcoin',
+  'RUB': 'rub', 'USD': 'usd', 'EUR': 'eur',
+};
+
+export async function convertCrypto(query: string): Promise<string | null> {
+  try {
+    const parts = query.trim().split(/\s+/);
+    if (parts.length < 4) return null;
+    const amount = parseFloat(parts[0]);
+    if (isNaN(amount) || amount <= 0) return null;
+    const from = parts[1].toUpperCase();
+    const to = parts[3].toUpperCase();
+
+    const fromId = COINGECKO_IDS[from];
+    const toId = COINGECKO_IDS[to];
+    if (!fromId || !toId) return null;
+
+    if (fromId === toId) {
+      return `${amount} ${from} = ${amount} ${to}`;
+    }
+
+    const { data } = await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=${fromId},${toId}&vs_currencies=usd,rub`,
+      { timeout: 10000 },
+    );
+
+    const fromPrice = data[fromId]?.usd || data[fromId]?.rub;
+    const toPrice = data[toId]?.usd || data[toId]?.rub;
+
+    if (fromPrice && toPrice) {
+      const result = (amount * fromPrice) / toPrice;
+      return `${amount} ${from} = ${result.toFixed(2)} ${to}`;
+    }
+    if (toId === 'usd' || toId === 'rub') {
+      const price = data[fromId]?.[toId];
+      if (price) {
+        const result = amount * price;
+        return `${amount} ${from} = ${result.toLocaleString('ru-RU')} ${to}`;
+      }
+    }
+    return null;
+  } catch { return null; }
+}
