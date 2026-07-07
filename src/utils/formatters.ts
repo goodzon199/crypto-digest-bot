@@ -14,8 +14,14 @@ export function formatDigest(prices: PriceData[], news: NewsItem[], summary: str
   }
 
   if (fng) {
-    const fngEmoji = fng.label === 'Fear' || fng.label === 'Extreme Fear' ? '😨' : '😎';
-    msg += `\n${fngEmoji} *Fear & Greed:* ${fng.value}/100 (${fng.label})`;
+    const fngLabels: Record<string, string> = {
+      'Extreme Fear': 'Экстремальный страх', 'Fear': 'Страх',
+      'Greed': 'Жадность', 'Extreme Greed': 'Экстремальная жадность',
+      'Neutral': 'Нейтрально',
+    };
+    const fngEmoji = fng.value <= 40 ? '😨' : fng.value >= 60 ? '😎' : '😐';
+    const fngLabel = fngLabels[fng.label] || fng.label;
+    msg += `${fngEmoji} *Индекс страха и жадности:* ${fng.value}/100 (${fngLabel})`;
   }
 
   msg += '\n\n*📰 Главные новости:*\n';
