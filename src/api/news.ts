@@ -5,14 +5,12 @@ export interface NewsItem {
   title: string;
   source: string;
   url: string;
-  summary?: string;
 }
 
 const SOURCES = [
-  { name: 'CoinDesk', url: 'https://www.coindesk.com/arc/outboundfeeds/rss/' },
-  { name: 'CoinTelegraph', url: 'https://cointelegraph.com/rss' },
-  { name: 'Decrypt', url: 'https://decrypt.co/feed' },
-  { name: 'CryptoSlate', url: 'https://cryptoslate.com/feed/' },
+  { name: 'ForkLog', url: 'https://forklog.com/feed' },
+  { name: 'BeInCrypto', url: 'https://ru.beincrypto.com/feed/' },
+  { name: 'Bits.media', url: 'https://bits.media/rss/' },
 ];
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36';
@@ -20,7 +18,7 @@ const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36';
 async function parseRSS(url: string): Promise<{ title: string; link: string }[]> {
   try {
     const { data } = await axios.get(url, {
-      timeout: 10000,
+      timeout: 15000,
       headers: { 'User-Agent': UA, 'Accept': 'application/rss+xml, application/xml, text/xml' },
     });
     const $ = load(data, { xmlMode: true });
@@ -30,7 +28,7 @@ async function parseRSS(url: string): Promise<{ title: string; link: string }[]>
       const link = $(el).find('link').text().trim();
       if (title && link) items.push({ title, link });
     });
-    return items.slice(0, 7);
+    return items.slice(0, 5);
   } catch { return []; }
 }
 
@@ -46,5 +44,5 @@ export async function fetchNews(): Promise<NewsItem[]> {
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
-  });
+  }).slice(0, 10);
 }
