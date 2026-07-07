@@ -36,3 +36,15 @@ export async function getBTCDominance(): Promise<number | null> {
     return data?.data?.market_cap_percentage?.btc ?? null;
   } catch { return null; }
 }
+
+export interface FearGreed { value: number; label: string }
+
+export async function getFearGreed(): Promise<FearGreed | null> {
+  try {
+    const { data } = await axios.get('https://api.alternative.me/fng/?limit=1', { timeout: 10000 });
+    if (data?.data?.[0]) {
+      return { value: parseInt(data.data[0].value), label: data.data[0].value_classification };
+    }
+    return null;
+  } catch { return null; }
+}

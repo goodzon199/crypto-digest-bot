@@ -1,5 +1,5 @@
 import { Telegraf } from 'telegraf';
-import { getPrices } from '../api/prices';
+import { getPrices, getFearGreed, FearGreed } from '../api/prices';
 import { fetchNews } from '../api/news';
 import { summarizeNews } from '../api/summarize';
 import { formatDigest } from '../utils/formatters';
@@ -80,9 +80,9 @@ export function setupBot(bot: Telegraf) {
 
 export async function sendDigest(chatId: number, bot: Telegraf) {
   try {
-    const [prices, news] = await Promise.all([getPrices(), fetchNews()]);
+    const [prices, news, fng] = await Promise.all([getPrices(), fetchNews(), getFearGreed()]);
     const summary = news.length > 0 ? await summarizeNews(news) : '';
-    const msg = formatDigest(prices, news, summary);
+    const msg = formatDigest(prices, news, summary, fng || undefined);
     await bot.telegram.sendMessage(chatId, msg, {
       parse_mode: 'Markdown',
       link_preview_options: { is_disabled: true },
@@ -95,9 +95,9 @@ export async function sendDigest(chatId: number, bot: Telegraf) {
 export async function sendDigestToAll(bot: Telegraf) {
   const users = getUsers();
   console.log(`[${new Date().toISOString()}] Sending digest to ${users.length} users...`);
-  const [prices, news] = await Promise.all([getPrices(), fetchNews()]);
+  const [prices, news, fng] = await Promise.all([getPrices(), fetchNews(), getFearGreed()]);
   const summary = news.length > 0 ? await summarizeNews(news) : '';
-  const msg = formatDigest(prices, news, summary);
+  const msg = formatDigest(prices, news, summary, fng || undefined);
   for (const uid of users) {
     try {
       await bot.telegram.sendMessage(uid, msg, {
