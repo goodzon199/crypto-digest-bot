@@ -94,8 +94,29 @@ export function setupBot(bot: Telegraf) {
     await ctx.reply('🔕 Отписали.');
   });
 
+  bot.hears('💱 Конвертер', async (ctx) => {
+    await ctx.reply(
+      '💱 *Конвертер криптовалют*\n\n'
+        + 'Напишите:\n'
+        + '`1 BTC to USD`\n'
+        + '`100 USDT to RUB`\n'
+        + '`0.5 ETH to USDT`',
+      { parse_mode: 'Markdown' },
+    );
+  });
+
+  bot.hears('📤 Поделиться', async (ctx) => {
+    await ctx.reply(
+      '📤 *Поделиться КриптоСводкой*\n\n'
+        + 'Отправьте другу ссылку на бота:\n'
+        + '`https://t.me/CryptaSvodkaBot`\n\n'
+        + 'Или нажмите кнопку "Поделиться" ниже ➡️',
+      { parse_mode: 'Markdown' },
+    );
+  });
+
   bot.hears('❓ Помощь', async (ctx) => {
-    await ctx.reply('/digest — сводка\n/subscribe — подписаться', mainKeyboard);
+    await ctx.reply('/digest — сводка\n/subscribe — подписаться\n/convert — конвертер', mainKeyboard);
   });
 }
 
