@@ -42,11 +42,13 @@ export function setupBot(bot: Telegraf) {
     const args = ctx.message.text.slice(9).trim();
     if (!args) {
       await ctx.reply(
-        '💱 *Конвертер валют*\n\n'
-          + 'Примеры:\n'
-          + '`/convert 1 BTC to USD`\n'
-          + '`/convert 100 USDT to RUB`\n'
-          + '`/convert 0.5 ETH to USDT`',
+        '💱 *Конвертер криптовалют*\n\n'
+          + 'Просто напишите:\n'
+          + '`1 BTC to USD`\n'
+          + '`100 USDT to RUB`\n'
+          + '`0.5 ETH to USDT`\n'
+          + '`50 TRX to USD`\n'
+          + '`10 BNB to RUB`',
         { parse_mode: 'Markdown' },
       );
       return;
@@ -59,7 +61,7 @@ export function setupBot(bot: Telegraf) {
     }
   });
 
-  bot.hears(/^(\d+\.?\d*)\s+(BTC|ETH|USDT|USDC|BNB|SOL|XRP|TON|DOGE|ADA|NOT)\s+(to|TO|=>|=)\s+(USD|RUB|USDT|EUR|BTC)$/i, async (ctx) => {
+  bot.hears(/^(\d+\.?\d*)\s+(BTC|ETH|USDT|USDC|BNB|SOL|XRP|TON|TRX|MONAD|MON|DOGE|ADA|NOT|LINK|AVAX|PEPE|SHIB|DOT)\s+(to|TO|=>|=|→)\s+(USD|RUB|USDT|EUR|BTC|ETH)$/i, async (ctx) => {
     const text = ctx.message.text.trim();
     const result = await convertCrypto(text);
     if (result) {
@@ -105,10 +107,12 @@ export function setupBot(bot: Telegraf) {
   bot.hears('💱 Конвертер', async (ctx) => {
     await ctx.reply(
       '💱 *Конвертер криптовалют*\n\n'
-        + 'Напишите:\n'
+        + 'Просто напишите:\n'
         + '`1 BTC to USD`\n'
         + '`100 USDT to RUB`\n'
-        + '`0.5 ETH to USDT`',
+        + '`10 TRX to USD`\n'
+        + '`0.5 ETH to USDT`\n'
+        + '`50 MONAD to USD`',
       { parse_mode: 'Markdown' },
     );
   });

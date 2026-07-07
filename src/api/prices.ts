@@ -57,6 +57,15 @@ const COINGECKO_IDS: Record<string, string> = {
   'XRP': 'ripple', 'ADA': 'cardano',
   'DOT': 'polkadot', 'DOGE': 'dogecoin',
   'TON': 'the-open-network', 'NOT': 'notcoin',
+  'TRX': 'tron', 'TRON': 'tron',
+  'MONAD': 'monad', 'MON': 'monad',
+  'LINK': 'chainlink', 'AVAX': 'avalanche-2',
+  'MATIC': 'matic-network', 'POL': 'polygon-ecosystem-token',
+  'ATOM': 'cosmos', 'NEAR': 'near',
+  'APT': 'aptos', 'SUI': 'sui',
+  'ARB': 'arbitrum', 'OP': 'optimism',
+  'PEPE': 'pepe', 'SHIB': 'shiba-inu',
+  'FIL': 'filecoin', 'AAVE': 'aave',
   'RUB': 'rub', 'USD': 'usd', 'EUR': 'eur',
 };
 
