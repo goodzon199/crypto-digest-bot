@@ -59,6 +59,14 @@ export function setupBot(bot: Telegraf) {
     }
   });
 
+  bot.hears(/^(\d+\.?\d*)\s+(BTC|ETH|USDT|USDC|BNB|SOL|XRP|TON|DOGE|ADA|NOT)\s+(to|TO|=>|=)\s+(USD|RUB|USDT|EUR|BTC)$/i, async (ctx) => {
+    const text = ctx.message.text.trim();
+    const result = await convertCrypto(text);
+    if (result) {
+      await ctx.reply(`💱 *${result}*`, { parse_mode: 'Markdown' });
+    }
+  });
+
   bot.command('subscribe', async (ctx) => {
     const cid = ctx.chat?.id;
     if (!cid) return;
